@@ -13,8 +13,11 @@ npm install react-countdown-clock
 ## Usage
 
 ```javascript
-<ReactCountdownClock seconds={60} 
-                     color={#000} 
-                     alpha={0.9} 
+<ReactCountdownClock seconds={60}
+                     color={#000}
+                     alpha={0.9}
+                     size={300}
                      onComplete={myCallback} />
 ```
+
+Enjoy :p
