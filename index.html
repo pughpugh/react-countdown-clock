@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>react-countdown-clock</title>
+  <style>
+    body {
+      background-color: #CCC;
+    }
+    #parappa { 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      margin: -150px 0 0 -150px;
+    }
+  </style>
+</head>
+<body>
+  <div id="parappa"></div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
+  <script src="./build/react-countdown-clock.js"></script>
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+    var MAX = 30;
+    var MIN = 5;
+
+    randomAmountOfSeconds = function(){
+      return Math.floor( Math.random() * ( MAX - MIN + 1) + MIN )
+    }
+
+    randomColor = function(){
+      return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16);
+    }
+
+    Demo = React.createClass({
+      getState: function(){
+        return { 
+          seconds: randomAmountOfSeconds(),
+          color: randomColor()
+        }
+      },
+      getInitialState: function(){
+        return this.getState();
+      },
+      handleOnComplete: function(){
+        this.setState(this.getState());
+      },
+      render: function(){
+        return <ReactCountdownClock seconds={this.state.seconds} color={this.state.color} alpha={0.9} onComplete={this.handleOnComplete} />
+      }
+    });
+
+    React.render(<Demo />, document.getElementById('parappa'))
+  </script>
+</body>
+</html>

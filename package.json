@@ -1,0 +1,29 @@
+{
+  "name": "react-countdown-clock",
+  "version": "1.0.0",
+  "description": "HTML5 canvas countdown clock React component",
+  "main": "build/react-countdown-clock.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pughpugh/react-countdown-clock"
+  },
+  "keywords": [
+    "react-component",
+    "react",
+    "countdown",
+    "timer",
+    "canvas"
+  ],
+  "author": "Hugh Gallagher <hugh@hcgallagher.co.uk> (http://www.hughgallagher.co.uk/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pughpugh/react-countdown-clock/issues"
+  },
+  "homepage": "https://github.com/pughpugh/react-countdown-clock",
+  "devDependencies": {
+    "cjsx-loader": "^1.1.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.8.0",
+    "webpack": "^1.4.15"
+  }
+}
