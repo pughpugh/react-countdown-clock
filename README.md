@@ -2,7 +2,9 @@
 
 A HTML 5 canvas countdown clock as a React component
 
-[Here's a Demo](http://pughpugh.github.io/react-countdown-clock)
+## Demo
+
+[pughpugh.github.io/react-countdown-clock](http://pughpugh.github.io/react-countdown-clock)
 
 ## Installation
 
@@ -14,10 +16,20 @@ npm install react-countdown-clock
 
 ```javascript
 <ReactCountdownClock seconds={60}
-                     color={#000}
+                     color="#000"
                      alpha={0.9}
                      size={300}
                      onComplete={myCallback} />
 ```
 
-Enjoy :p
+## Props
+
+* `seconds` to count down
+* `color` you'd like it to be as a hex/css colour code
+* `alpha` transparency for component
+* `size` for height and width of canvas element, in pixels.
+* `onComplete` callback when timer completes
+
+## Bugs
+
+[github.com/pughpugh/react-countdown-clock/issues](https://github.com/pughpugh/react-countdown-clock/issues)
