@@ -23,13 +23,15 @@ module.exports = React.createClass
     seconds: @props.seconds
 
   componentWillReceiveProps: (props) ->
+    @_setScale()
+    @_setupCanvas()
+    @_drawTimer()
+    @_startTimer()
     @setState seconds: props.seconds
 
-  componentWillMount: ->
-    @_setScale()
-
   componentDidMount: ->
-    @_setupCanvas() if !_canvas
+    @_setScale()
+    @_setupCanvas()
     @_drawTimer()
     @_startTimer()
 
@@ -60,12 +62,11 @@ module.exports = React.createClass
     setTimeout ( =>
       duration = Date.now() - start
       @setState
-        seconds: @state.seconds - duration / 1000
+        seconds: Math.max(0,@state.seconds - duration / 1000)
       @_tick() unless @state.seconds <= 0
     ), 30
 
   _handleComplete: ->
-    @setState seconds: 0
     if @props.onComplete
       @props.onComplete()
 
