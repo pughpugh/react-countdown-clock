@@ -58,6 +58,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	React = __webpack_require__(1);
 	
+	_radius = null;
+	
+	_fraction = null;
+	
+	_context = null;
+	
+	_canvas = null;
 	
 	module.exports = React.createClass({
 	  propTypes: {
@@ -68,7 +75,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onComplete: React.PropTypes.func
 	  },
 	  getDefaultProps: function() {
-          console.log('get default props');
 	    return {
 	      seconds: 60,
 	      size: 300,
@@ -77,33 +83,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 	  getInitialState: function() {
-          console.log('get initial state');
 	    return {
 	      seconds: this.props.seconds
 	    };
 	  },
 	  componentWillReceiveProps: function(props) {
-          console.log('componnet will receive props');
 	    this._setScale();
-	      this._setupCanvas();
+	    this._setupCanvas();
 	    this._drawTimer();
-    this._startTimer();
+	    this._startTimer();
 	    return this.setState({
 	      seconds: props.seconds
 	    });
 	  },
-	  componentWillMount: function() {
-          console.log('component will mount');
-	  },
 	  componentDidMount: function() {
-          console.log('component did mount');
 	    this._setScale();
-	      this._setupCanvas();
+	    this._setupCanvas();
 	    this._drawTimer();
 	    return this._startTimer();
 	  },
 	  componentDidUpdate: function() {
-          console.log('componnet did update');
 	    this._setScale();
 	    this._clearTimer();
 	    this._drawTimer();
@@ -137,7 +136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var duration;
 	        duration = Date.now() - start;
 	        _this.setState({
-	          seconds: _this.state.seconds - duration / 1000
+	          seconds: Math.max(0, _this.state.seconds - duration / 1000)
 	        });
 	        if (!(_this.state.seconds <= 0)) {
 	          return _this._tick();
