@@ -23,13 +23,15 @@ module.exports = React.createClass
     seconds: @props.seconds
 
   componentWillReceiveProps: (props) ->
+    @_setScale()
+    @_setupCanvas()
+    @_drawTimer()
+    @_startTimer()
     @setState seconds: props.seconds
 
-  componentWillMount: ->
-    @_setScale()
-
   componentDidMount: ->
-    @_setupCanvas() if !_canvas
+    @_setScale()
+    @_setupCanvas()
     @_drawTimer()
     @_startTimer()
 
