@@ -52,22 +52,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!**************************************!*\
-  !*** ./react-countdown-clock.coffee ***!
-  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, _canvas, _context, _fraction, _radius;
 	
-	React = __webpack_require__(/*! react */ 1);
+	React = __webpack_require__(1);
 	
-	_radius = null;
-	
-	_fraction = null;
-	
-	_context = null;
-	
-	_canvas = null;
 	
 	module.exports = React.createClass({
 	  propTypes: {
@@ -78,6 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onComplete: React.PropTypes.func
 	  },
 	  getDefaultProps: function() {
+          console.log('get default props');
 	    return {
 	      seconds: 60,
 	      size: 300,
@@ -86,26 +77,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 	  getInitialState: function() {
+          console.log('get initial state');
 	    return {
 	      seconds: this.props.seconds
 	    };
 	  },
 	  componentWillReceiveProps: function(props) {
+          console.log('componnet will receive props');
+	    this._setScale();
+	      this._setupCanvas();
+	    this._drawTimer();
+    this._startTimer();
 	    return this.setState({
 	      seconds: props.seconds
 	    });
 	  },
 	  componentWillMount: function() {
-	    return this._setScale();
+          console.log('component will mount');
 	  },
 	  componentDidMount: function() {
-	    if (!_canvas) {
+          console.log('component did mount');
+	    this._setScale();
 	      this._setupCanvas();
-	    }
 	    this._drawTimer();
 	    return this._startTimer();
 	  },
 	  componentDidUpdate: function() {
+          console.log('componnet did update');
 	    this._setScale();
 	    this._clearTimer();
 	    this._drawTimer();
@@ -148,9 +146,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    })(this)), 30);
 	  },
 	  _handleComplete: function() {
-	    this.setState({
-	      seconds: 0
-	    });
 	    if (this.props.onComplete) {
 	      return this.props.onComplete();
 	    }
@@ -167,9 +162,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _context.fill();
 	  },
 	  _drawTimer: function() {
-	    var decimals, percent, _ref;
+	    var decimals, percent, ref;
 	    percent = _fraction * this.state.seconds + 1.5;
-	    decimals = (_ref = this.state.seconds <= 9.9) != null ? _ref : {
+	    decimals = (ref = this.state.seconds <= 9.9) != null ? ref : {
 	      1: 0
 	    };
 	    _context.globalAlpha = this.props.alpha;
@@ -192,9 +187,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/*!**************************************************************************************!*\
-  !*** external {"root":"React","commonjs":"react","commonjs2":"react","amd":"react"} ***!
-  \**************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
@@ -202,5 +194,5 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
-
+;
 //# sourceMappingURL=react-countdown-clock.js.map

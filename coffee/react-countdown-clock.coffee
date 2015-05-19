@@ -65,7 +65,6 @@ module.exports = React.createClass
     ), 30
 
   _handleComplete: ->
-    @setState seconds: 0
     if @props.onComplete
       @props.onComplete()
 
