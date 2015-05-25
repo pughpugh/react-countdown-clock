@@ -54,19 +54,16 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React, _canvas, _context, _fraction, _radius;
+	var React;
 	
 	React = __webpack_require__(1);
 	
-	_radius = null;
-	
-	_fraction = null;
-	
-	_context = null;
-	
-	_canvas = null;
-	
 	module.exports = React.createClass({
+	  _seconds: 0,
+	  _radius: null,
+	  _fraction: null,
+	  _content: null,
+	  _canvas: null,
 	  propTypes: {
 	    seconds: React.PropTypes.number,
 	    size: React.PropTypes.number,
@@ -76,50 +73,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  getDefaultProps: function() {
 	    return {
-	      seconds: 60,
 	      size: 300,
 	      color: '#000',
 	      alpha: 1
 	    };
 	  },
-	  getInitialState: function() {
-	    return {
-	      seconds: this.props.seconds
-	    };
-	  },
 	  componentWillReceiveProps: function(props) {
-	    this._setScale();
-	    this._setupCanvas();
-	    this._drawTimer();
-	    this._startTimer();
-	    return this.setState({
-	      seconds: props.seconds
-	    });
+	    this._seconds = props.seconds;
+	    return this._setupTimer();
 	  },
 	  componentDidMount: function() {
+	    this._seconds = this.props.seconds;
+	    return this._setupTimer();
+	  },
+	  _setupTimer: function() {
 	    this._setScale();
 	    this._setupCanvas();
 	    this._drawTimer();
 	    return this._startTimer();
 	  },
-	  componentDidUpdate: function() {
-	    this._setScale();
+	  _updateCanvas: function() {
 	    this._clearTimer();
-	    this._drawTimer();
-	    if (this.state.seconds <= 0) {
-	      return this._handleComplete();
-	    }
+	    return this._drawTimer();
 	  },
 	  _setScale: function() {
-	    _radius = this.props.size / 2;
-	    return _fraction = 2 / this.props.seconds;
+	    this._radius = this.props.size / 2;
+	    this._fraction = 2 / this._seconds;
+	    return this._tickPeriod = this._seconds * 1.8;
 	  },
 	  _setupCanvas: function() {
-	    _canvas = this.getDOMNode();
-	    _context = _canvas.getContext('2d');
-	    _context.textAlign = 'center';
-	    _context.textBaseline = 'middle';
-	    return _context.font = "bold " + (_radius / 2) + "px Arial";
+	    this._canvas = this.getDOMNode();
+	    this._context = this._canvas.getContext('2d');
+	    this._context.textAlign = 'center';
+	    this._context.textBaseline = 'middle';
+	    return this._context.font = "bold " + (this._radius / 2) + "px Arial";
 	  },
 	  _startTimer: function() {
 	    return setTimeout(((function(_this) {
@@ -134,15 +121,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return setTimeout(((function(_this) {
 	      return function() {
 	        var duration;
-	        duration = Date.now() - start;
-	        _this.setState({
-	          seconds: Math.max(0, _this.state.seconds - duration / 1000)
-	        });
-	        if (!(_this.state.seconds <= 0)) {
+	        duration = (Date.now() - start) / 1000;
+	        _this._seconds -= duration;
+	        if (_this._seconds <= 0) {
+	          _this._seconds = 0;
+	          _this._handleComplete();
+	          return _this._clearTimer();
+	        } else {
+	          _this._updateCanvas();
 	          return _this._tick();
 	        }
 	      };
-	    })(this)), 30);
+	    })(this)), this._tickPeriod);
 	  },
 	  _handleComplete: function() {
 	    if (this.props.onComplete) {
@@ -150,29 +140,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  _clearTimer: function() {
-	    _context.clearRect(0, 0, _canvas.width, _canvas.height);
+	    this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 	    return this._drawBackground();
 	  },
 	  _drawBackground: function() {
-	    _context.beginPath();
-	    _context.globalAlpha = this.props.alpha / 3;
-	    _context.arc(_radius, _radius, _radius, 0, Math.PI * 2, false);
-	    _context.arc(_radius, _radius, _radius / 1.8, Math.PI * 2, 0, true);
-	    return _context.fill();
+	    this._context.beginPath();
+	    this._context.globalAlpha = this.props.alpha / 3;
+	    this._context.arc(this._radius, this._radius, this._radius, 0, Math.PI * 2, false);
+	    this._context.arc(this._radius, this._radius, this._radius / 1.8, Math.PI * 2, 0, true);
+	    return this._context.fill();
 	  },
 	  _drawTimer: function() {
 	    var decimals, percent, ref;
-	    percent = _fraction * this.state.seconds + 1.5;
-	    decimals = (ref = this.state.seconds <= 9.9) != null ? ref : {
+	    percent = this._fraction * this._seconds + 1.5;
+	    decimals = (ref = this._seconds <= 9.9) != null ? ref : {
 	      1: 0
 	    };
-	    _context.globalAlpha = this.props.alpha;
-	    _context.fillStyle = this.props.color;
-	    _context.fillText(this.state.seconds.toFixed(decimals), _radius, _radius);
-	    _context.beginPath();
-	    _context.arc(_radius, _radius, _radius, Math.PI * 1.5, Math.PI * percent, false);
-	    _context.arc(_radius, _radius, _radius / 1.8, Math.PI * percent, Math.PI * 1.5, true);
-	    return _context.fill();
+	    this._context.globalAlpha = this.props.alpha;
+	    this._context.fillStyle = this.props.color;
+	    this._context.fillText(this._seconds.toFixed(decimals), this._radius, this._radius);
+	    this._context.beginPath();
+	    this._context.arc(this._radius, this._radius, this._radius, Math.PI * 1.5, Math.PI * percent, false);
+	    this._context.arc(this._radius, this._radius, this._radius / 1.8, Math.PI * percent, Math.PI * 1.5, true);
+	    return this._context.fill();
 	  },
 	  render: function() {
 	    return React.createElement("canvas", {
