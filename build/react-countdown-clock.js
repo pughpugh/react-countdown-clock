@@ -54,9 +54,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React;
+	var React, timeoutIds;
 	
 	React = __webpack_require__(1);
+	
+	timeoutIds = [];
 	
 	module.exports = React.createClass({
 	  _seconds: 0,
@@ -86,6 +88,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._seconds = this.props.seconds;
 	    return this._setupTimer();
 	  },
+	  componentWillUnmount: function() {
+	    var i, len, results, timeout;
+	    results = [];
+	    for (i = 0, len = timeoutIds.length; i < len; i++) {
+	      timeout = timeoutIds[i];
+	      results.push(clearTimeout(timeout));
+	    }
+	    return results;
+	  },
 	  _setupTimer: function() {
 	    this._setScale();
 	    this._setupCanvas();
@@ -109,16 +120,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this._context.font = "bold " + (this._radius / 2) + "px Arial";
 	  },
 	  _startTimer: function() {
-	    return setTimeout(((function(_this) {
+	    return timeoutIds.push(setTimeout(((function(_this) {
 	      return function() {
 	        return _this._tick();
 	      };
-	    })(this)), 200);
+	    })(this)), 200));
 	  },
 	  _tick: function() {
 	    var start;
 	    start = Date.now();
-	    return setTimeout(((function(_this) {
+	    return timeoutIds.push(setTimeout(((function(_this) {
 	      return function() {
 	        var duration;
 	        duration = (Date.now() - start) / 1000;
@@ -132,7 +143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return _this._tick();
 	        }
 	      };
-	    })(this)), this._tickPeriod);
+	    })(this)), this._tickPeriod));
 	  },
 	  _handleComplete: function() {
 	    if (this.props.onComplete) {
@@ -176,7 +187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 

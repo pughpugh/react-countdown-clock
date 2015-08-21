@@ -1,5 +1,7 @@
 React  = require 'react'
 
+timeoutIds = []
+
 module.exports = React.createClass
   _seconds: 0
   _radius: null
@@ -27,6 +29,10 @@ module.exports = React.createClass
     @_seconds = @props.seconds
     @_setupTimer()
 
+  componentWillUnmount: ->
+    for timeout in timeoutIds
+      clearTimeout(timeout)
+
   _setupTimer: ->
     @_setScale()
     @_setupCanvas()
@@ -51,11 +57,11 @@ module.exports = React.createClass
 
   _startTimer: ->
     # Give it a moment to collect it's thoughts for smoother render
-    setTimeout ( => @_tick() ), 200
+    timeoutIds.push(setTimeout ( => @_tick() ), 200)
 
   _tick: ->
     start = Date.now()
-    setTimeout ( =>
+    timeoutIds.push(setTimeout ( =>
       duration = (Date.now() - start) / 1000
       @_seconds -= duration
 
@@ -66,7 +72,7 @@ module.exports = React.createClass
       else
         @_updateCanvas()
         @_tick()
-    ), @_tickPeriod
+    ), @_tickPeriod)
 
   _handleComplete: ->
     if @props.onComplete
