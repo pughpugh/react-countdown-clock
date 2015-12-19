@@ -6,6 +6,8 @@ module.exports = React.createClass
   _fraction: null
   _content: null
   _canvas: null
+
+  displayName: 'ReactCountdownClock'
   
   propTypes:
     seconds: React.PropTypes.number
@@ -43,7 +45,7 @@ module.exports = React.createClass
     @_tickPeriod = @_seconds * 1.8
 
   _setupCanvas: ->
-    @_canvas  = @getDOMNode()
+    @_canvas  = ReactDOM.findDOMNode this
     @_context = @_canvas.getContext '2d'
     @_context.textAlign = 'center'
     @_context.textBaseline = 'middle'

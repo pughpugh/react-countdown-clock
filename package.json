@@ -21,12 +21,12 @@
   },
   "homepage": "https://github.com/pughpugh/react-countdown-clock",
   "devDependencies": {
-    "cjsx-loader": "^1.1.0",
+    "cjsx-loader": "^2.1.0",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.8.0",
     "webpack": "^1.4.15"
   },
   "dependencies": {
-    "react": "^0.13.3"
+    "react": "^0.14.3"
   }
 }

@@ -64,6 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _fraction: null,
 	  _content: null,
 	  _canvas: null,
+	  displayName: 'ReactCountdownClock',
 	  propTypes: {
 	    seconds: React.PropTypes.number,
 	    size: React.PropTypes.number,
@@ -102,7 +103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this._tickPeriod = this._seconds * 1.8;
 	  },
 	  _setupCanvas: function() {
-	    this._canvas = this.getDOMNode();
+	    this._canvas = ReactDOM.findDOMNode(this);
 	    this._context = this._canvas.getContext('2d');
 	    this._context.textAlign = 'center';
 	    this._context.textBaseline = 'middle';
@@ -176,7 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
