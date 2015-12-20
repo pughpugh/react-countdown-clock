@@ -6,6 +6,7 @@ module.exports = React.createClass
   _fraction: null
   _content: null
   _canvas: null
+  _timeoutIds: []
 
   displayName: 'ReactCountdownClock'
   
@@ -28,6 +29,9 @@ module.exports = React.createClass
   componentDidMount: ->
     @_seconds = @props.seconds
     @_setupTimer()
+
+  componentWillUnmount: ->
+    @_cancelTimer()
 
   _setupTimer: ->
     @_setScale()
@@ -53,11 +57,15 @@ module.exports = React.createClass
 
   _startTimer: ->
     # Give it a moment to collect it's thoughts for smoother render
-    setTimeout ( => @_tick() ), 200
+    @_timeoutIds.push(setTimeout ( => @_tick() ), 200)
+
+  _cancelTimer: ->
+    for timeout in @_timeoutIds
+      clearTimeout timeout
 
   _tick: ->
     start = Date.now()
-    setTimeout ( =>
+    @_timeoutIds.push(setTimeout ( =>
       duration = (Date.now() - start) / 1000
       @_seconds -= duration
 
@@ -68,7 +76,7 @@ module.exports = React.createClass
       else
         @_updateCanvas()
         @_tick()
-    ), @_tickPeriod
+    ), @_tickPeriod)
 
   _handleComplete: ->
     if @props.onComplete
