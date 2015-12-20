@@ -1,6 +1,6 @@
 {
   "name": "react-countdown-clock",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "HTML5 canvas countdown clock React component",
   "main": "build/react-countdown-clock.js",
   "repository": {
