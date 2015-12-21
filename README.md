@@ -2,6 +2,8 @@
 
 A HTML 5 canvas countdown clock as a React component
 
+![Screenshot](http://pughpugh.github.io/react-countdown-clock/screenshot.png?=0)
+
 ## Demo
 
 [pughpugh.github.io/react-countdown-clock](http://pughpugh.github.io/react-countdown-clock)
