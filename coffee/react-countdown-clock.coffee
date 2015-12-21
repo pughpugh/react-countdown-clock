@@ -49,7 +49,7 @@ module.exports = React.createClass
     @_tickPeriod = @_seconds * 1.8
 
   _setupCanvas: ->
-    @_canvas  = ReactDOM.findDOMNode this
+    @_canvas  = @refs.canvas
     @_context = @_canvas.getContext '2d'
     @_context.textAlign = 'center'
     @_context.textBaseline = 'middle'
@@ -105,4 +105,4 @@ module.exports = React.createClass
     @_context.fill()
 
   render: ->
-    <canvas className="react-countdown-clock" width={@props.size} height={@props.size}></canvas>
+    <canvas ref='canvas' className="react-countdown-clock" width={@props.size} height={@props.size}></canvas>

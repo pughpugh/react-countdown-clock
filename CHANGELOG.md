@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - Dec 21, 2015
+
+  * Removed ReactDOM dependency
+
 ## 1.0.4 - Dec 20, 2015
 
   * Upgraded React (0.14.3) and dev dependencies
