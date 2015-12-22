@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - Dec 22, 2015
+
+  * Removed React into peerDependencies
+
 ## 1.0.5 - Dec 21, 2015
 
   * Removed ReactDOM dependency
