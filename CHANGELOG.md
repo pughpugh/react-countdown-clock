@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.7 - Aug 7, 2016
+
+  * Weight of circle can now be configured. Thanks @rutan.
+
+## 1.0.6 - Feb 18, 2016
+
+  * Added licence
+
 ## 1.0.5 - Dec 22, 2015
 
   * Removed React into peerDependencies
