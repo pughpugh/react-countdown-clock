@@ -9,10 +9,11 @@ module.exports = React.createClass
   _timeoutIds: []
 
   displayName: 'ReactCountdownClock'
-  
+
   propTypes:
     seconds: React.PropTypes.number
     size: React.PropTypes.number
+    weight: React.PropTypes.number
     color: React.PropTypes.string
     alpha: React.PropTypes.number
     onComplete: React.PropTypes.func
@@ -44,9 +45,14 @@ module.exports = React.createClass
     @_drawTimer()
 
   _setScale: ->
-    @_radius     = @props.size / 2
-    @_fraction   = 2 / @_seconds
-    @_tickPeriod = @_seconds * 1.8
+    @_radius      = @props.size / 2
+    @_fraction    = 2 / @_seconds
+    @_tickPeriod  = @_seconds * 1.8
+    @_innerRadius =
+      if @props.weight
+        @_radius - @props.weight
+      else
+        @_radius / 1.8
 
   _setupCanvas: ->
     @_canvas  = @refs.canvas
@@ -89,8 +95,8 @@ module.exports = React.createClass
   _drawBackground: ->
     @_context.beginPath()
     @_context.globalAlpha = @props.alpha / 3
-    @_context.arc @_radius, @_radius, @_radius,     0,           Math.PI * 2, false
-    @_context.arc @_radius, @_radius, @_radius/1.8, Math.PI * 2, 0,           true
+    @_context.arc @_radius, @_radius,      @_radius,           0, Math.PI * 2, false
+    @_context.arc @_radius, @_radius, @_innerRadius, Math.PI * 2,           0, true
     @_context.fill()
 
   _drawTimer: ->
@@ -100,8 +106,8 @@ module.exports = React.createClass
     @_context.fillStyle = @props.color
     @_context.fillText @_seconds.toFixed(decimals), @_radius, @_radius
     @_context.beginPath()
-    @_context.arc @_radius, @_radius, @_radius,     Math.PI * 1.5,     Math.PI * percent, false
-    @_context.arc @_radius, @_radius, @_radius/1.8, Math.PI * percent, Math.PI * 1.5,     true
+    @_context.arc @_radius, @_radius,      @_radius,     Math.PI * 1.5, Math.PI * percent, false
+    @_context.arc @_radius, @_radius, @_innerRadius, Math.PI * percent,     Math.PI * 1.5, true
     @_context.fill()
 
   render: ->

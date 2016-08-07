@@ -30,6 +30,7 @@ npm install react-countdown-clock
 * `color` you'd like it to be as a hex/css colour code
 * `alpha` transparency for component
 * `size` for height and width of canvas element, in pixels.
+* `weight` for weight of circle, in pixels.
 * `onComplete` callback when timer completes
 
 ## Bugs
