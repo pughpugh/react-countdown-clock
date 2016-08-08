@@ -5,6 +5,7 @@
   * Updated React version in peerDependencies
   * Added new props for fontSize, font, timeFormat and showMilliseconds
   * Added ability to render minutes and hours
+  * Fixed long countdowns having a tick period longer than 1 second
 
 ## 1.0.7 - Aug 7, 2016
 
