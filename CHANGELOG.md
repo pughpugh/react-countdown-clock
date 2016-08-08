@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8 - Aug 8, 2016
+
+  * Updated React version in peerDependencies
+  * Added new props for fontSize, font, timeFormat and showMilliseconds
+  * Added ability to render minutes and hours
+
 ## 1.0.7 - Aug 7, 2016
 
   * Weight of circle can now be configured. Thanks @rutan.

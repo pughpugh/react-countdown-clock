@@ -26,12 +26,18 @@ npm install react-countdown-clock
 
 ## Props
 
-* `seconds` to count down
-* `color` you'd like it to be as a hex/css colour code
-* `alpha` transparency for component
-* `size` for height and width of canvas element, in pixels.
-* `weight` for weight of circle, in pixels.
-* `onComplete` callback when timer completes
+| prop             | type           | default | description                                    |
+|------------------|----------------|---------|------------------------------------------------|
+| seconds          | integer        | 60      | Seconds to countdown                           |
+| color            | string         | #000    | Colour of counter                              |
+| alpha            | float          | 1.0     | Alpha transparency of counter                  |
+| size             | integer        | 300     | Width & height of canvas element               |
+| weight           | integer        |         | Weight of circle, in pixels                    |
+| fontSize         | integer/string | auto    | px size of font. `auto` for dynamic sizing.    |
+| font             | string         | Arial   | Font of counter                                |
+| timeFormat       | string         | seconds | Counter style; `seconds` or `hms`              |
+| showMilliseconds | boolean        | true    | Show milliseconds for last 10 seconds          |
+| onComplete       | func           |         | Callback when time completes                   |
 
 ## Bugs & Contributions
 
