@@ -56,12 +56,19 @@ module.exports = React.createClass
   _setScale: ->
     @_radius      = @props.size / 2
     @_fraction    = 2 / @_seconds
-    @_tickPeriod  = @_seconds * 1.8
+    @_tickPeriod  = @_calculateTick()
     @_innerRadius =
       if @props.weight
         @_radius - @props.weight
       else
         @_radius / 1.8
+
+  _calculateTick: ->
+    # Tick period (milleseconds) needs to be fast for smaller time periods and slower
+    # for longer ones. This provides smoother rendering. It should never exceed 1 second.
+    tickScale = 1.8
+    tick = @_seconds * tickScale
+    if tick > 1000 then 1000 else tick
 
   _setupCanvas: ->
     @_canvas  = @refs.canvas
