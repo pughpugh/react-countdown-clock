@@ -20,7 +20,7 @@ module.exports = React.createClass
     alpha: React.PropTypes.number
     timeFormat: React.PropTypes.string
     onComplete: React.PropTypes.func
-    showMilliseconds: React.PropTypes.boolean
+    showMilliseconds: React.PropTypes.bool
 
   getDefaultProps: ->
     seconds: 60
