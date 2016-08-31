@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.9 - Aug 31, 2016
+  * Fix invalid react proptype for showMilliseconds. Thanks @sabazusi.
+
 ## 1.0.8 - Aug 8, 2016
 
   * Updated React version in peerDependencies
