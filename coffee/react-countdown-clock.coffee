@@ -21,6 +21,7 @@ module.exports = React.createClass
     timeFormat: React.PropTypes.string
     onComplete: React.PropTypes.func
     showMilliseconds: React.PropTypes.bool
+    restartOnNewProps: React.PropTypes.bool
 
   getDefaultProps: ->
     seconds: 60
@@ -31,10 +32,12 @@ module.exports = React.createClass
     fontSize: 'auto'
     font: 'Arial'
     showMilliseconds: true
+    restartOnNewProps: true
 
   componentWillReceiveProps: (props) ->
-    @_seconds = props.seconds
-    @_setupTimer()
+    if @props.restartOnNewProps
+      @_seconds = props.seconds
+      @_setupTimer()
 
   componentDidMount: ->
     @_seconds = @props.seconds
