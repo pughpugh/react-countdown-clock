@@ -122,14 +122,18 @@ module.exports = React.createClass
       minutes = parseInt( @_seconds / 60 ) % 60
       seconds = (@_seconds % 60).toFixed(decimals)
 
-      hours   = "0#{hours}" if hours < 10
-      minutes = "0#{minutes}" if minutes < 10
-      seconds = "0#{seconds}" if seconds < 10 && minutes >= 1
+      hoursStr = "#{hours}"
+      minutesStr = "#{minutes}"
+      secondsStr = "#{seconds}"
+
+      hoursStr   = "0#{hours}" if hours < 10
+      minutesStr = "0#{minutes}" if minutes < 10 && hours >= 1
+      secondsStr = "0#{seconds}" if seconds < 10 && (minutes >= 1 || hours >= 1)
 
       timeParts = []
-      timeParts.push hours if hours > 0
-      timeParts.push minutes if minutes > 0
-      timeParts.push seconds
+      timeParts.push hoursStr if hours > 0
+      timeParts.push minutesStr if minutes > 0 || hours > 0
+      timeParts.push secondsStr
 
       timeParts.join ':'
     else

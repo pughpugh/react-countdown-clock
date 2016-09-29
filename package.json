@@ -3,6 +3,9 @@
   "version": "1.0.9",
   "description": "HTML5 canvas countdown clock React component",
   "main": "build/react-countdown-clock.js",
+  "scripts": {
+    "build": "webpack -p"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pughpugh/react-countdown-clock"
