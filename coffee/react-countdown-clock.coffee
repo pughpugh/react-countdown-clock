@@ -34,6 +34,7 @@ module.exports = React.createClass
 
   componentWillReceiveProps: (props) ->
     @_seconds = props.seconds
+    @_resetCanvas() # reset canvas on seconds change from user events
     @_setupTimer()
 
   componentDidMount: ->
@@ -52,6 +53,10 @@ module.exports = React.createClass
   _updateCanvas: ->
     @_clearTimer()
     @_drawTimer()
+
+  _resetCanvas: ->
+    @_cancelTimer()
+    @_clearTimer()
 
   _setScale: ->
     @_radius      = @props.size / 2
