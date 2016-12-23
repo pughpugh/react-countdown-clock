@@ -20,7 +20,8 @@ module.exports = React.createClass
     alpha: React.PropTypes.number
     timeFormat: React.PropTypes.string
     onComplete: React.PropTypes.func
-    showMilliseconds: React.PropTypes.boolean
+    onClick: React.PropTypes.func
+    showMilliseconds: React.PropTypes.bool
 
   getDefaultProps: ->
     seconds: 60
@@ -32,9 +33,15 @@ module.exports = React.createClass
     font: 'Arial'
     showMilliseconds: true
 
-  componentWillReceiveProps: (props) ->
-    @_seconds = props.seconds
-    @_setupTimer()
+  componentDidUpdate: (props) ->
+    if props.seconds != @props.seconds
+      @_seconds = props.seconds
+      @_setupTimer()
+
+    if props.color != @props.color
+      @_clearBackground()
+      @_drawBackground()
+      @_updateCanvas()
 
   componentDidMount: ->
     @_seconds = @props.seconds
@@ -45,7 +52,8 @@ module.exports = React.createClass
 
   _setupTimer: ->
     @_setScale()
-    @_setupCanvas()
+    @_setupCanvases()
+    @_drawBackground()
     @_drawTimer()
     @_startTimer()
 
@@ -70,11 +78,13 @@ module.exports = React.createClass
     tick = @_seconds * tickScale
     if tick > 1000 then 1000 else tick
 
-  _setupCanvas: ->
-    @_canvas  = @refs.canvas
-    @_context = @_canvas.getContext '2d'
-    @_context.textAlign = 'center'
-    @_context.textBaseline = 'middle'
+  _setupCanvases: ->
+    @_background = @refs.background.getContext '2d'
+    @_timer = @refs.timer.getContext '2d'
+    @_timer.textAlign = 'center'
+    @_timer.textBaseline = 'middle'
+    if @props.onClick?
+      @refs.component.addEventListener 'click', @props.onClick
 
   _startTimer: ->
     # Give it a moment to collect it's thoughts for smoother render
@@ -83,6 +93,9 @@ module.exports = React.createClass
   _cancelTimer: ->
     for timeout in @_timeoutIds
       clearTimeout timeout
+
+    if @props.onClick?
+      @refs.component.removeEventListener 'click', @props.onClick
 
   _tick: ->
     start = Date.now()
@@ -103,16 +116,20 @@ module.exports = React.createClass
     if @props.onComplete
       @props.onComplete()
 
+  _clearBackground: ->
+    @_background.clearRect 0, 0, @refs.timer.width, @refs.timer.height
+
   _clearTimer: ->
-    @_context.clearRect 0, 0, @_canvas.width, @_canvas.height
-    @_drawBackground()
+    @_timer.clearRect 0, 0, @refs.timer.width, @refs.timer.height
 
   _drawBackground: ->
-    @_context.beginPath()
-    @_context.globalAlpha = @props.alpha / 3
-    @_context.arc @_radius, @_radius,      @_radius,           0, Math.PI * 2, false
-    @_context.arc @_radius, @_radius, @_innerRadius, Math.PI * 2,           0, true
-    @_context.fill()
+    @_background.beginPath()
+    @_background.globalAlpha = @props.alpha / 3
+    @_background.fillStyle = @props.color
+    @_background.arc @_radius, @_radius,      @_radius,           0, Math.PI * 2, false
+    @_background.arc @_radius, @_radius, @_innerRadius, Math.PI * 2,           0, true
+    @_background.closePath()
+    @_background.fill()
 
   _formattedTime: ->
     decimals = (@_seconds <= 9.9 && @props.showMilliseconds) ? 1 : 0
@@ -149,14 +166,20 @@ module.exports = React.createClass
   _drawTimer: ->
     percent = @_fraction * @_seconds + 1.5
     formattedTime = @_formattedTime()
-    @_context.globalAlpha = @props.alpha
-    @_context.fillStyle = @props.color
-    @_context.font = "bold #{@_fontSize(formattedTime)} #{@props.font}"
-    @_context.fillText formattedTime, @_radius, @_radius
-    @_context.beginPath()
-    @_context.arc @_radius, @_radius,      @_radius,     Math.PI * 1.5, Math.PI * percent, false
-    @_context.arc @_radius, @_radius, @_innerRadius, Math.PI * percent,     Math.PI * 1.5, true
-    @_context.fill()
+
+    # Timer
+    @_timer.globalAlpha = @props.alpha
+    @_timer.fillStyle = @props.color
+    @_timer.font = "bold #{@_fontSize(formattedTime)} #{@props.font}"
+    @_timer.fillText formattedTime, @_radius, @_radius
+    @_timer.beginPath()
+    @_timer.arc @_radius, @_radius,      @_radius,     Math.PI * 1.5, Math.PI * percent, false
+    @_timer.arc @_radius, @_radius, @_innerRadius, Math.PI * percent,     Math.PI * 1.5, true
+    @_timer.closePath()
+    @_timer.fill()
 
   render: ->
-    <canvas ref='canvas' className="react-countdown-clock" width={@props.size} height={@props.size}></canvas>
+    <div ref='component' className="react-countdown-clock">
+      <canvas ref='background' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
+      <canvas ref='timer' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
+    </div>

@@ -48,13 +48,20 @@
       handleOnComplete: function(){
         this.setState(this.getState());
       },
+      handleOnClick: function(){
+        console.log("CLICK")
+        this.setState({
+          color: randomColor()
+        });
+      },
       render: function(){
         return (
           React.createElement(ReactCountdownClock, {
             seconds: this.state.seconds,
             color: this.state.color,
             alpha: 0.9,
-            onComplete: this.handleOnComplete 
+            onComplete: this.handleOnComplete,
+            onClick: this.handleOnClick
           })
         )
       }
