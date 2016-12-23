@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10 - Dev 23, 2016
+  * Reduce the ammount of canvas drawing
+  * Allow colour to be updated without resetting the timer
+
 ## 1.0.9 - Aug 31, 2016
   * Fix invalid react proptype for showMilliseconds. Thanks @sabazusi.
 
