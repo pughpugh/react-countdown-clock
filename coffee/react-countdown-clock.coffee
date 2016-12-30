@@ -22,6 +22,8 @@ module.exports = React.createClass
     onComplete: React.PropTypes.func
     onClick: React.PropTypes.func
     showMilliseconds: React.PropTypes.bool
+    paused: React.PropTypes.bool
+    pausedText: React.PropTypes.string
 
   getDefaultProps: ->
     seconds: 60
@@ -32,6 +34,7 @@ module.exports = React.createClass
     fontSize: 'auto'
     font: 'Arial'
     showMilliseconds: true
+    paused: false
 
   componentDidUpdate: (props) ->
     if props.seconds != @props.seconds
@@ -42,6 +45,10 @@ module.exports = React.createClass
       @_clearBackground()
       @_drawBackground()
       @_updateCanvas()
+
+    if props.paused != @props.paused
+      @_startTimer() if !@props.paused
+      @_pauseTimer() if @props.paused
 
   componentDidMount: ->
     @_seconds = @props.seconds
@@ -55,7 +62,7 @@ module.exports = React.createClass
     @_setupCanvases()
     @_drawBackground()
     @_drawTimer()
-    @_startTimer()
+    @_startTimer() unless @props.paused
 
   _updateCanvas: ->
     @_clearTimer()
@@ -90,9 +97,16 @@ module.exports = React.createClass
     # Give it a moment to collect it's thoughts for smoother render
     @_timeoutIds.push(setTimeout ( => @_tick() ), 200)
 
-  _cancelTimer: ->
+  _pauseTimer: ->
+    @_stopTimer()
+    @_updateCanvas()
+
+  _stopTimer: ->
     for timeout in @_timeoutIds
       clearTimeout timeout
+
+  _cancelTimer: ->
+    @_stopTimer()
 
     if @props.onClick?
       @refs.component.removeEventListener 'click', @props.onClick
@@ -166,15 +180,16 @@ module.exports = React.createClass
   _drawTimer: ->
     percent = @_fraction * @_seconds + 1.5
     formattedTime = @_formattedTime()
+    text = if (@props.paused && @props.pausedText?) then @props.pausedText else formattedTime
 
     # Timer
     @_timer.globalAlpha = @props.alpha
     @_timer.fillStyle = @props.color
     @_timer.font = "bold #{@_fontSize(formattedTime)} #{@props.font}"
-    @_timer.fillText formattedTime, @_radius, @_radius
+    @_timer.fillText text, @_radius, @_radius
     @_timer.beginPath()
-    @_timer.arc @_radius, @_radius,      @_radius,     Math.PI * 1.5, Math.PI * percent, false
-    @_timer.arc @_radius, @_radius, @_innerRadius, Math.PI * percent,     Math.PI * 1.5, true
+    @_timer.arc @_radius, @_radius, @_radius,      Math.PI * 1.5,     Math.PI * percent, false
+    @_timer.arc @_radius, @_radius, @_innerRadius, Math.PI * percent, Math.PI * 1.5,     true
     @_timer.closePath()
     @_timer.fill()
 

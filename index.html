@@ -39,7 +39,9 @@
       getState: function(){
         return { 
           seconds: randomAmountOfSeconds(),
-          color: randomColor()
+          color: randomColor(),
+          paused: false,
+          fontSize: 'auto'
         }
       },
       getInitialState: function(){
@@ -49,9 +51,11 @@
         this.setState(this.getState());
       },
       handleOnClick: function(){
-        console.log("CLICK")
+        wasPaused = this.state.paused
         this.setState({
-          color: randomColor()
+          // color: randomColor(),
+          paused: (wasPaused) ? false : true,
+          fontSize: (wasPaused) ? 'auto' : '45px',
         });
       },
       render: function(){
@@ -59,9 +63,12 @@
           React.createElement(ReactCountdownClock, {
             seconds: this.state.seconds,
             color: this.state.color,
+            paused: this.state.paused,
+            pausedText: "▐▐ ",
             alpha: 0.9,
             onComplete: this.handleOnComplete,
-            onClick: this.handleOnClick
+            onClick: this.handleOnClick,
+            fontSize: this.state.fontSize
           })
         )
       }
