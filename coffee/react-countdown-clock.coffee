@@ -1,6 +1,8 @@
 React  = require 'react'
+PropTypes = require 'prop-types'
+CreateReactClass = require 'create-react-class'
 
-module.exports = React.createClass
+module.exports = CreateReactClass
   _seconds: 0
   _radius: null
   _fraction: null
@@ -11,19 +13,19 @@ module.exports = React.createClass
   displayName: 'ReactCountdownClock'
 
   propTypes:
-    seconds: React.PropTypes.number
-    size: React.PropTypes.number
-    weight: React.PropTypes.number
-    color: React.PropTypes.string
-    fontSize: React.PropTypes.string
-    font: React.PropTypes.string
-    alpha: React.PropTypes.number
-    timeFormat: React.PropTypes.string
-    onComplete: React.PropTypes.func
-    onClick: React.PropTypes.func
-    showMilliseconds: React.PropTypes.bool
-    paused: React.PropTypes.bool
-    pausedText: React.PropTypes.string
+    seconds: PropTypes.number
+    size: PropTypes.number
+    weight: PropTypes.number
+    color: PropTypes.string
+    fontSize: PropTypes.string
+    font: PropTypes.string
+    alpha: PropTypes.number
+    timeFormat: PropTypes.string
+    onComplete: PropTypes.func
+    onClick: PropTypes.func
+    showMilliseconds: PropTypes.bool
+    paused: PropTypes.bool
+    pausedText: PropTypes.string
 
   getDefaultProps: ->
     seconds: 60

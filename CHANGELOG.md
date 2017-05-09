@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.11
+ * Fix deprecation warnings in React 15.5.0
+
 ## 1.1.0 - Dec 30, 2016
   * Move to semantic versioning
   * Reduce the ammount of canvas drawing
