@@ -40,6 +40,8 @@
         return { 
           seconds: randomAmountOfSeconds(),
           color: randomColor(),
+          fontColor: '#aaa',
+          backgroundColor: '#fff',
           paused: false,
           fontSize: 'auto'
         }
@@ -63,6 +65,8 @@
           React.createElement(ReactCountdownClock, {
             seconds: this.state.seconds,
             color: this.state.color,
+            fontColor: this.state.fontColor,
+            backgroundColor: this.state.backgroundColor,
             paused: this.state.paused,
             pausedText: "▐▐ ",
             alpha: 0.9,
