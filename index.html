@@ -19,8 +19,9 @@
 </head>
 <body>
   <div id="parappa"></div>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.3.0/react.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.3.0/react-dom.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react-dom.js"></script>
+  <script src="https://unpkg.com/create-react-class/create-react-class.js"></script>
   <script src="./build/react-countdown-clock.js"></script>
   <script>
     var MAX = 120;
@@ -34,7 +35,7 @@
       return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16);
     }
 
-    var Demo = React.createClass({
+    var Demo = createReactClass({
       displayName: 'Demo',
       getState: function(){
         return { 

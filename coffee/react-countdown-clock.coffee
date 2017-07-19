@@ -2,7 +2,7 @@ React  = require 'react'
 PropTypes = require 'prop-types'
 CreateReactClass = require 'create-react-class'
 
-module.exports = CreateReactClass
+ReactCountdownClock = CreateReactClass
   _seconds: 0
   _radius: null
   _fraction: null
@@ -11,32 +11,6 @@ module.exports = CreateReactClass
   _timeoutIds: []
 
   displayName: 'ReactCountdownClock'
-
-  propTypes:
-    seconds: PropTypes.number
-    size: PropTypes.number
-    weight: PropTypes.number
-    color: PropTypes.string
-    fontSize: PropTypes.string
-    font: PropTypes.string
-    alpha: PropTypes.number
-    timeFormat: PropTypes.string
-    onComplete: PropTypes.func
-    onClick: PropTypes.func
-    showMilliseconds: PropTypes.bool
-    paused: PropTypes.bool
-    pausedText: PropTypes.string
-
-  getDefaultProps: ->
-    seconds: 60
-    size: 300
-    color: '#000'
-    alpha: 1
-    timeFormat: 'hms'
-    fontSize: 'auto'
-    font: 'Arial'
-    showMilliseconds: true
-    paused: false
 
   componentDidUpdate: (props) ->
     if props.seconds != @props.seconds
@@ -200,3 +174,31 @@ module.exports = CreateReactClass
       <canvas ref='background' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
       <canvas ref='timer' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
     </div>
+
+ReactCountdownClock.propTypes =
+  seconds: PropTypes.number
+  size: PropTypes.number
+  weight: PropTypes.number
+  color: PropTypes.string
+  fontSize: PropTypes.string
+  font: PropTypes.string
+  alpha: PropTypes.number
+  timeFormat: PropTypes.string
+  onComplete: PropTypes.func
+  onClick: PropTypes.func
+  showMilliseconds: PropTypes.bool
+  paused: PropTypes.bool
+  pausedText: PropTypes.string
+
+ReactCountdownClock.defaultProps =
+  seconds: 60
+  size: 300
+  color: '#000'
+  alpha: 1
+  timeFormat: 'hms'
+  fontSize: 'auto'
+  font: 'Arial'
+  showMilliseconds: true
+  paused: false
+
+module.exports = ReactCountdownClock

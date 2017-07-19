@@ -1,7 +1,7 @@
 # Changelog
 
-## 1.0.11
- * Fix deprecation warnings in React 15.5.0
+## 2.0.0
+ * Fix deprecation warnings in React 15.6.0
 
 ## 1.1.0 - Dec 30, 2016
   * Move to semantic versioning

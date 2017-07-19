@@ -1,10 +1,12 @@
+var path = require('path');
+
 module.exports = {
   cache: true,
   context: __dirname + '/coffee',
   entry: './react-countdown-clock.coffee',
   output: {
-    path: './build',
-    publicPath: '/build/',
+    path: path.join(__dirname, 'build'),
+    publicPath: path.join(__dirname, 'build'),
     filename: 'react-countdown-clock.js',
     library: 'ReactCountdownClock',
     libraryTarget: 'umd'
@@ -22,7 +24,7 @@ module.exports = {
     loaders: [
       { 
         test: /\.coffee$/, 
-        loader: 'coffee!cjsx' 
+        loader: 'coffee-loader!cjsx-loader' 
       }
     ]
   }
