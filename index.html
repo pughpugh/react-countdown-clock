@@ -19,8 +19,9 @@
 </head>
 <body>
   <div id="parappa"></div>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.3.0/react.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.3.0/react-dom.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react-dom.js"></script>
+  <script src="https://unpkg.com/create-react-class/create-react-class.js"></script>
   <script src="./build/react-countdown-clock.js"></script>
   <script>
     var MAX = 120;
@@ -34,12 +35,14 @@
       return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16);
     }
 
-    var Demo = React.createClass({
+    var Demo = createReactClass({
       displayName: 'Demo',
       getState: function(){
         return { 
           seconds: randomAmountOfSeconds(),
-          color: randomColor()
+          color: randomColor(),
+          paused: false,
+          fontSize: 'auto'
         }
       },
       getInitialState: function(){
@@ -48,13 +51,25 @@
       handleOnComplete: function(){
         this.setState(this.getState());
       },
+      handleOnClick: function(){
+        wasPaused = this.state.paused
+        this.setState({
+          // color: randomColor(),
+          paused: (wasPaused) ? false : true,
+          fontSize: (wasPaused) ? 'auto' : '45px',
+        });
+      },
       render: function(){
         return (
           React.createElement(ReactCountdownClock, {
             seconds: this.state.seconds,
             color: this.state.color,
+            paused: this.state.paused,
+            pausedText: "▐▐ ",
             alpha: 0.9,
-            onComplete: this.handleOnComplete 
+            onComplete: this.handleOnComplete,
+            onClick: this.handleOnClick,
+            fontSize: this.state.fontSize
           })
         )
       }
