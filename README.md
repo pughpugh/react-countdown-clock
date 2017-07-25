@@ -29,7 +29,9 @@ npm install react-countdown-clock
 | prop             | type           | default | description                                               |
 |------------------|----------------|---------|-----------------------------------------------------------|
 | seconds          | integer        | 60      | Seconds to countdown                                      |
-| color            | string         | #000    | Colour of counter                                         |
+| color            | string         | #000    | Colour of progressing counter                                         |
+| backgroundColor  | string         | #000    | Colour of counter background, default to color                                         |
+| fontColor        | string         | #000    | Colour of counter text, default to color                                         |
 | alpha            | float          | 1.0     | Alpha transparency of counter                             |
 | size             | integer        | 300     | Width & height of canvas element                          |
 | weight           | integer        |         | Weight of circle, in pixels                               |
