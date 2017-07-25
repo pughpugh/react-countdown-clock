@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+ * Fix deprecation warnings in React 15.6.0. Thanks @AaronKalair
+ * Fix Fixes missing minute components when hour is > 0. Thanks @KTachyon
+
 ## 1.1.0 - Dec 30, 2016
   * Move to semantic versioning
   * Reduce the ammount of canvas drawing

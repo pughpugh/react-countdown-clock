@@ -1,6 +1,8 @@
 React  = require 'react'
+PropTypes = require 'prop-types'
+CreateReactClass = require 'create-react-class'
 
-module.exports = React.createClass
+ReactCountdownClock = CreateReactClass
   _seconds: 0
   _radius: null
   _fraction: null
@@ -9,34 +11,6 @@ module.exports = React.createClass
   _timeoutIds: []
 
   displayName: 'ReactCountdownClock'
-
-  propTypes:
-    seconds: React.PropTypes.number
-    size: React.PropTypes.number
-    weight: React.PropTypes.number
-    backgroundColor: React.PropTypes.string
-    color: React.PropTypes.string
-    fontSize: React.PropTypes.string
-    font: React.PropTypes.string
-    fontColor: React.PropTypes.string
-    alpha: React.PropTypes.number
-    timeFormat: React.PropTypes.string
-    onComplete: React.PropTypes.func
-    onClick: React.PropTypes.func
-    showMilliseconds: React.PropTypes.bool
-    paused: React.PropTypes.bool
-    pausedText: React.PropTypes.string
-
-  getDefaultProps: ->
-    seconds: 60
-    size: 300
-    color: '#000'
-    alpha: 1
-    timeFormat: 'hms'
-    fontSize: 'auto'
-    font: 'Arial'
-    showMilliseconds: true
-    paused: false
 
   componentDidUpdate: (props) ->
     if props.seconds != @props.seconds
@@ -155,14 +129,18 @@ module.exports = React.createClass
       minutes = parseInt( @_seconds / 60 ) % 60
       seconds = (@_seconds % 60).toFixed(decimals)
 
-      hours   = "0#{hours}" if hours < 10
-      minutes = "0#{minutes}" if minutes < 10
-      seconds = "0#{seconds}" if seconds < 10 && minutes >= 1
+      hoursStr = "#{hours}"
+      minutesStr = "#{minutes}"
+      secondsStr = "#{seconds}"
+
+      hoursStr   = "0#{hours}" if hours < 10
+      minutesStr = "0#{minutes}" if minutes < 10 && hours >= 1
+      secondsStr = "0#{seconds}" if seconds < 10 && (minutes >= 1 || hours >= 1)
 
       timeParts = []
-      timeParts.push hours if hours > 0
-      timeParts.push minutes if minutes > 0
-      timeParts.push seconds
+      timeParts.push hoursStr if hours > 0
+      timeParts.push minutesStr if minutes > 0 || hours > 0
+      timeParts.push secondsStr
 
       timeParts.join ':'
     else
@@ -204,3 +182,33 @@ module.exports = React.createClass
       <canvas ref='background' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
       <canvas ref='timer' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
     </div>
+
+ReactCountdownClock.propTypes =
+  seconds: PropTypes.number
+  size: PropTypes.number
+  weight: PropTypes.number
+  color: PropTypes.string
+  fontSize: PropTypes.string
+  font: PropTypes.string
+  alpha: PropTypes.number
+  timeFormat: PropTypes.string
+  onComplete: PropTypes.func
+  onClick: PropTypes.func
+  showMilliseconds: PropTypes.bool
+  paused: PropTypes.bool
+  pausedText: PropTypes.string
+  backgroundColor: React.PropTypes.string
+  fontColor: React.PropTypes.string
+
+ReactCountdownClock.defaultProps =
+  seconds: 60
+  size: 300
+  color: '#000'
+  alpha: 1
+  timeFormat: 'hms'
+  fontSize: 'auto'
+  font: 'Arial'
+  showMilliseconds: true
+  paused: false
+
+module.exports = ReactCountdownClock
