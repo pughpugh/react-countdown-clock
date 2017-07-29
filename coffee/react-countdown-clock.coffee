@@ -15,6 +15,9 @@ ReactCountdownClock = CreateReactClass
   componentDidUpdate: (prevProps) ->
     if prevProps.seconds != @props.seconds
       @_seconds = @props.seconds
+      @_stopTimer()
+      @_clearTimer()
+      @_clearBackground()
       @_setupTimer()
 
     if prevProps.color != @props.color
