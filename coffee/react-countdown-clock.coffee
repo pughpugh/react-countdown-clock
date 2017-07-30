@@ -68,6 +68,9 @@ ReactCountdownClock = CreateReactClass
     @_timer.textBaseline = 'middle'
     if @props.onClick?
       @refs.component.addEventListener 'click', @props.onClick
+    if @props.scale?
+      @_background.scale(@props.scale, @props.scale)
+      @_timer.scale(@props.scale, @props.scale)
 
   _startTimer: ->
     # Give it a moment to collect it's thoughts for smoother render
@@ -174,9 +177,12 @@ ReactCountdownClock = CreateReactClass
     @_timer.fill()
 
   render: ->
+    width = @props.size * @props.scale
+    height = @props.size * @props.scale
+    style = { position: 'absolute', width: width / 2, height: height / 2 }
     <div ref='component' className="react-countdown-clock">
-      <canvas ref='background' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
-      <canvas ref='timer' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
+      <canvas ref='background' style={style} width={width} height={height}></canvas>
+      <canvas ref='timer' style={style} width={width} height={height}></canvas>
     </div>
 
 ReactCountdownClock.propTypes =
@@ -193,6 +199,7 @@ ReactCountdownClock.propTypes =
   showMilliseconds: PropTypes.bool
   paused: PropTypes.bool
   pausedText: PropTypes.string
+  scale: PropTypes.number
 
 ReactCountdownClock.defaultProps =
   seconds: 60
@@ -204,5 +211,6 @@ ReactCountdownClock.defaultProps =
   font: 'Arial'
   showMilliseconds: true
   paused: false
+  scale: 1
 
 module.exports = ReactCountdownClock

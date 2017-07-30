@@ -21,6 +21,7 @@ npm install react-countdown-clock
                      color="#000"
                      alpha={0.9}
                      size={300}
+                     scale={window.devicePixelRatio}
                      onComplete={myCallback} />
 ```
 
@@ -40,6 +41,7 @@ npm install react-countdown-clock
 | onComplete       | func           |         | Callback when time completes                              |
 | paused           | boolean        | false   | Pause countdown of the timer                              |
 | pausedText       | string         |         | Text to display when paused, defaults to the current time |
+| scale            | float          | 1       | Scale of canvas, set this to `window.devicePixelRatio`    |
 
 ## Bugs & Contributions
 
