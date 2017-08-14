@@ -174,7 +174,7 @@ ReactCountdownClock = CreateReactClass
     @_timer.fill()
 
   render: ->
-    <div ref='component' className="react-countdown-clock">
+    <div ref='component' className="react-countdown-clock" style={width:{@props.size}, height:{@props.size}}>
       <canvas ref='background' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
       <canvas ref='timer' style={ position: 'absolute' } width={@props.size} height={@props.size}></canvas>
     </div>
