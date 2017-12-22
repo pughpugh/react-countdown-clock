@@ -25,7 +25,7 @@
   <script src="./build/react-countdown-clock.js"></script>
   <script>
     var MAX = 120;
-    var MIN = 30;
+    var MIN = 10;
 
     var randomAmountOfSeconds = function(){
       return Math.floor( Math.random() * ( MAX - MIN + 1) + MIN )
@@ -69,8 +69,7 @@
             alpha: 0.9,
             onComplete: this.handleOnComplete,
             onClick: this.handleOnClick,
-            fontSize: this.state.fontSize,
-            scale: window.devicePixelRatio
+            fontSize: this.state.fontSize
           })
         )
       }
