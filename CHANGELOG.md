@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0
+	* Reset timer if seconds change. Thanks @mmajis
+	* Makes div the same size as the countdown clock. Thanks @Miniland1333
+	* Fix old props being assigned rather than new. Thanks @zaidchauhan
+	* Scale canvas for high DPI devices. Thanks @gravitypersists 
+
 ## 2.0.0
  * Fix deprecation warnings in React 15.6.0. Thanks @AaronKalair
  * Fix Fixes missing minute components when hour is > 0. Thanks @KTachyon
