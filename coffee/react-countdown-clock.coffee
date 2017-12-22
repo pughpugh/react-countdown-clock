@@ -13,18 +13,18 @@ ReactCountdownClock = CreateReactClass
 
   displayName: 'ReactCountdownClock'
 
-  componentDidUpdate: (props) ->
-    console.log @props
-    if props.seconds != @props.seconds
+  componentDidUpdate: (prevProps) ->
+    if prevProps.seconds != @props.seconds
       @_seconds = @props.seconds
+      @_stopTimer()
       @_setupTimer()
 
-    if props.color != @props.color
+    if prevProps.color != @props.color
       @_clearBackground()
       @_drawBackground()
       @_updateCanvas()
 
-    if props.paused != @props.paused
+    if prevProps.paused != @props.paused
       @_startTimer() if !@props.paused
       @_pauseTimer() if @props.paused
 
