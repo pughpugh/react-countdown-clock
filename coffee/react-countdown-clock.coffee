@@ -15,7 +15,7 @@ ReactCountdownClock = CreateReactClass
 
   componentDidUpdate: (prevProps) ->
     if prevProps.seconds != @props.seconds
-      @_seconds = @props.seconds
+      @_seconds = @_startSeconds()
       @_stopTimer()
       @_setupTimer()
 
@@ -28,11 +28,15 @@ ReactCountdownClock = CreateReactClass
       @_pauseTimer() if @props.paused
 
   componentDidMount: ->
-    @_seconds = @props.seconds
+    @_seconds = @_startSeconds()
     @_setupTimer()
 
   componentWillUnmount: ->
     @_cancelTimer()
+
+  _startSeconds: ->
+    # To prevent a brief flash of the start time when not paused
+    if @props.paused then @props.seconds else @props.seconds - 0.01
 
   _setupTimer: ->
     @_setScale()
@@ -117,7 +121,8 @@ ReactCountdownClock = CreateReactClass
     @_background.clearRect 0, 0, @refs.timer.width, @refs.timer.height
 
   _clearTimer: ->
-    @_timer.clearRect 0, 0, @refs.timer.width, @refs.timer.height
+    if @refs.timer?
+      @_timer.clearRect 0, 0, @refs.timer.width, @refs.timer.height
 
   _drawBackground: ->
     @_clearBackground()
@@ -130,12 +135,16 @@ ReactCountdownClock = CreateReactClass
     @_background.fill()
 
   _formattedTime: ->
-    decimals = (@_seconds <= 9.9 && @props.showMilliseconds) ? 1 : 0
+    decimals = (@_seconds < 10 && @props.showMilliseconds) ? 1 : 0
 
     if @props.timeFormat == 'hms'
       hours   = parseInt( @_seconds / 3600 ) % 24
       minutes = parseInt( @_seconds / 60 ) % 60
-      seconds = (@_seconds % 60).toFixed(decimals)
+
+      if decimals
+        seconds = ((Math.floor(@_seconds * 10) / 10)).toFixed(decimals)
+      else
+        seconds = Math.floor(@_seconds % 60)
 
       hoursStr = "#{hours}"
       minutesStr = "#{minutes}"
@@ -152,7 +161,7 @@ ReactCountdownClock = CreateReactClass
 
       timeParts.join ':'
     else
-      return @_seconds.toFixed(decimals)
+      (Math.floor(@_seconds * 10) / 10).toFixed(decimals)
 
   _fontSize: (timeString) ->
     if @props.fontSize == 'auto'
