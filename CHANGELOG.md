@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0
+  * Build with Webpack 4
+  * Update npm dependencies
+  * Fix issue with background being re-rendered over itself. Thanks @mbstrauss
+
 ## 2.1.0
 	* Reset timer if seconds change. Thanks @mmajis
 	* Makes div the same size as the countdown clock. Thanks @Miniland1333
