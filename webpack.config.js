@@ -21,11 +21,12 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
-      { 
-        test: /\.coffee$/, 
-        loader: 'coffee-loader!cjsx-loader' 
-      }
-    ]
+    rules: [{ 
+      test: /\.coffee$/, 
+      use: [
+        'coffee-loader',
+        'cjsx-loader'
+      ]
+    }]
   }
 };

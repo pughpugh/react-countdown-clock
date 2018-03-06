@@ -20,7 +20,6 @@ ReactCountdownClock = CreateReactClass
       @_setupTimer()
 
     if prevProps.color != @props.color
-      @_clearBackground()
       @_drawBackground()
       @_updateCanvas()
 
@@ -121,6 +120,7 @@ ReactCountdownClock = CreateReactClass
     @_timer.clearRect 0, 0, @refs.timer.width, @refs.timer.height
 
   _drawBackground: ->
+    @_clearBackground()
     @_background.beginPath()
     @_background.globalAlpha = @props.alpha / 3
     @_background.fillStyle = @props.color
