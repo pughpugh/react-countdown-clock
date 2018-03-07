@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.0 Mat 7, 2018
+  * Fix code not transpilling to ES5
+
 ## 2.3.0
   * Fix 60 seconds showing at minute transition #38 - Thanks @7022Andre
   * Fix Uncaught TypeError: Cannot read property 'width' of undefined at Object._clearTimer #34

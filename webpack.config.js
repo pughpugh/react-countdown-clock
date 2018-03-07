@@ -24,8 +24,10 @@ module.exports = {
     rules: [{ 
       test: /\.coffee$/, 
       use: [
-        'coffee-loader',
-        'cjsx-loader'
+        {
+          loader: 'coffee-loader',
+          options: { transpile: { presets: ['react'] } }
+        }
       ]
     }]
   }
