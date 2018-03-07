@@ -25,7 +25,8 @@
   "homepage": "https://github.com/pughpugh/react-countdown-clock",
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cjsx-loader": "^3.0.0",
     "coffee-loader": "^0.9.0",
     "coffee-script": "^1.8.0",
     "react": "^16.2.0",
