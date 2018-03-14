@@ -21,11 +21,16 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
-      { 
-        test: /\.coffee$/, 
-        loader: 'coffee-loader!cjsx-loader' 
-      }
-    ]
+    rules: [{ 
+      test: /\.coffee$/, 
+      use: [
+        {
+          loader: 'coffee-loader',
+          options: { transpile: { presets: ['es2015'] } }
+        },{
+          loader: 'cjsx-loader'
+        }
+      ]
+    }]
   }
 };
