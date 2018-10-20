@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.0
+  * Update npm dependencies
+
 ## 2.4.0 Mat 7, 2018
   * Fix code not transpilling to ES5
 
