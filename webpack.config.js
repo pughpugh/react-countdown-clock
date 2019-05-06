@@ -25,8 +25,7 @@ module.exports = {
       test: /\.coffee$/, 
       use: [
         {
-          loader: 'coffee-loader',
-          options: { transpile: { presets: ['es2015'] } }
+          loader: 'coffee-loader'
         },{
           loader: 'cjsx-loader'
         }
