@@ -7,7 +7,7 @@
     body {
       background-color: #CCC;
     }
-    #parappa { 
+    #parappa {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -38,7 +38,8 @@
     var Demo = createReactClass({
       displayName: 'Demo',
       getState: function(){
-        return { 
+        return {
+          totalSeconds: randomAmountOfSeconds(),
           seconds: randomAmountOfSeconds(),
           color: randomColor(),
           paused: false,
@@ -62,6 +63,7 @@
       render: function(){
         return (
           React.createElement(ReactCountdownClock, {
+            totalSeconds: this.state.totalSeconds,
             seconds: this.state.seconds,
             color: this.state.color,
             paused: this.state.paused,

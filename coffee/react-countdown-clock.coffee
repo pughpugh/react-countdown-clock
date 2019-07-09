@@ -3,6 +3,7 @@ PropTypes = require 'prop-types'
 CreateReactClass = require 'create-react-class'
 
 ReactCountdownClock = CreateReactClass
+  _totalSeconds: 0
   _seconds: 0
   _radius: null
   _fraction: null
@@ -29,6 +30,7 @@ ReactCountdownClock = CreateReactClass
 
   componentDidMount: ->
     @_seconds = @_startSeconds()
+    @_totalSeconds = @_totalSeconds()
     @_setupTimer()
 
   componentWillUnmount: ->
@@ -37,6 +39,9 @@ ReactCountdownClock = CreateReactClass
   _startSeconds: ->
     # To prevent a brief flash of the start time when not paused
     if @props.paused then @props.seconds else @props.seconds - 0.01
+
+  _totalSeconds: ->
+    if @props.totalSeconds && @props.totalSeconds >= @props.seconds then @props.totalSeconds else @props.seconds
 
   _setupTimer: ->
     @_setScale()
@@ -175,7 +180,7 @@ ReactCountdownClock = CreateReactClass
       @props.fontSize
 
   _drawTimer: ->
-    percent = @_fraction * @_seconds + 1.5
+    percent = @_fraction * @_seconds * (@_seconds / @_totalSeconds) + 1.5
     formattedTime = @_formattedTime()
     text = if (@props.paused && @props.pausedText?) then @props.pausedText else formattedTime
 
@@ -200,6 +205,7 @@ ReactCountdownClock = CreateReactClass
     </div>
 
 ReactCountdownClock.propTypes =
+  totalSeconds: PropTypes.number
   seconds: PropTypes.number
   size: PropTypes.number
   weight: PropTypes.number
