@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.0
+  * Update npm dependencies
+
 ## 2.6.0
   * Update npm dependencies
 
