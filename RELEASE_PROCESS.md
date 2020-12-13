@@ -6,7 +6,7 @@ Just to remind myself of my own release process for this repo.
 4. Update `CHANGELOG.md`
 5. Webpack build
 
-        webpack -p
+        webpack --mode=production
 
 6. Test it all works
 
