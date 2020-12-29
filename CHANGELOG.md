@@ -1,21 +1,24 @@
 # Changelog
 
-## 2.8.0
+## 2.8.1 - Dec 29, 2020
+  * Fix window error on server side #60
+
+## 2.8.0 - Dec 13, 2020
   * Update npm dependencies
 
-## 2.7.0
+## 2.7.0 - Sep 17, 2019
   * Update npm dependencies
 
-## 2.6.0
+## 2.6.0 - May 6, 2019
   * Update npm dependencies
 
-## 2.5.0
+## 2.5.0 - Oct 20, 2018
   * Update npm dependencies
 
-## 2.4.0 Mat 7, 2018
+## 2.4.0 - Mar 7, 2018
   * Fix code not transpilling to ES5
 
-## 2.3.0
+## 2.3.0 - Mar 6, 2018
   * Fix 60 seconds showing at minute transition #38 - Thanks @7022Andre
   * Fix Uncaught TypeError: Cannot read property 'width' of undefined at Object._clearTimer #34
   * Only show full start time when starting paused

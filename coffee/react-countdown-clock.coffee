@@ -9,7 +9,7 @@ ReactCountdownClock = CreateReactClass
   _content: null
   _canvas: null
   _timeoutIds: []
-  _scale: window.devicePixelRatio || 1
+  _scale: window?.devicePixelRatio || 1
 
   displayName: 'ReactCountdownClock'
 
