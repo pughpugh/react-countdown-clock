@@ -17,6 +17,8 @@ npm install react-countdown-clock
 ## Usage
 
 ```javascript
+import ReactCountdownClock from 'react-countdown-clock';
+
 <ReactCountdownClock seconds={60}
                      color="#000"
                      alpha={0.9}
