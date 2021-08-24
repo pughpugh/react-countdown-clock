@@ -1,6 +1,6 @@
 {
   "name": "react-countdown-clock",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "description": "HTML5 canvas countdown clock React component",
   "main": "build/react-countdown-clock.js",
   "scripts": {
@@ -24,21 +24,22 @@
   },
   "homepage": "https://github.com/pughpugh/react-countdown-clock",
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
     "cjsx-loader": "^3.0.0",
-    "coffee-loader": "^1.0.1",
+    "coffee-loader": "^3.0.0",
     "coffee-script": "^1.12.7",
-    "react": "^17.0.1",
-    "webpack": "^5.10.1",
-    "webpack-cli": "^4.2.0"
+    "react": "^17.0.2",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
   "peerDependencies": {
-    "react": "^17.0.1"
+    "react": "^17.0.2"
   },
   "dependencies": {
     "coffeescript": "^2.5.1",
     "create-react-class": "^15.7.0",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "serve": "^12.0.0"
   }
 }

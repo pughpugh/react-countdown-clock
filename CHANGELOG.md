@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.0 - Aug 24, 2021
+  * Update npm dependencies
+
 ## 2.8.1 - Dec 29, 2020
   * Fix window error on server side #60
 
