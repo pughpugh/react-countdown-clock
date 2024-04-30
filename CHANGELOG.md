@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.0 - Apr 30, 2024
+  * Update npm dependencies
+
 ## 2.10.0 - Oct 26, 2022
   * Update npm dependencies
 
