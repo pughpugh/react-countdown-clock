@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>react-countdown-clock</title>
@@ -7,7 +8,8 @@
     body {
       background-color: #CCC;
     }
-    #parappa { 
+
+    #parappa {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -17,6 +19,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="parappa"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.development.js"></script>
@@ -27,31 +30,34 @@
     var MAX = 120;
     var MIN = 10;
 
-    var randomAmountOfSeconds = function(){
-      return Math.floor( Math.random() * ( MAX - MIN + 1) + MIN )
+    var randomAmountOfSeconds = function () {
+      return Math.floor(Math.random() * (MAX - MIN + 1) + MIN)
     }
 
-    var randomColor = function(){
-      return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16);
+    var randomColor = function () {
+      return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     }
 
     var Demo = createReactClass({
       displayName: 'Demo',
-      getState: function(){
-        return { 
+      getState: function () {
+        return {
           seconds: randomAmountOfSeconds(),
           color: randomColor(),
           paused: false,
           fontSize: 'auto'
         }
       },
-      getInitialState: function(){
+      getInitialState: function () {
         return this.getState();
       },
-      handleOnComplete: function(){
+      handleOnComplete: function () {
         this.setState(this.getState());
       },
-      handleOnClick: function(){
+      handleOnSecond: function (seconds) {
+        console.log('seconds: ' + seconds);
+      },
+      handleOnClick: function () {
         wasPaused = this.state.paused
         this.setState({
           // color: randomColor(),
@@ -59,7 +65,7 @@
           fontSize: (wasPaused) ? 'auto' : '45px',
         });
       },
-      render: function(){
+      render: function () {
         return (
           React.createElement(ReactCountdownClock, {
             seconds: this.state.seconds,
@@ -69,7 +75,8 @@
             alpha: 0.9,
             onComplete: this.handleOnComplete,
             onClick: this.handleOnClick,
-            fontSize: this.state.fontSize
+            fontSize: this.state.fontSize,
+            onSecond: this.handleOnSecond
           })
         )
       }
@@ -81,4 +88,5 @@
     )
   </script>
 </body>
+
 </html>

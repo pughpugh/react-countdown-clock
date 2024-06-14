@@ -4,6 +4,7 @@ CreateReactClass = require 'create-react-class'
 
 ReactCountdownClock = CreateReactClass
   _seconds: 0
+  _prevSeconds: 0
   _radius: null
   _fraction: null
   _content: null
@@ -102,6 +103,7 @@ ReactCountdownClock = CreateReactClass
     start = Date.now()
     @_timeoutIds.push(setTimeout ( =>
       duration = (Date.now() - start) / 1000
+      @_prevSeconds = Math.round(@_seconds)
       @_seconds -= duration
 
       if @_seconds <= 0
@@ -110,6 +112,10 @@ ReactCountdownClock = CreateReactClass
         @_clearTimer()
       else
         @_updateCanvas()
+        if @props.onSecond
+          roundSeconds = Math.round(@_seconds)
+          if roundSeconds != @_prevSeconds
+            @props.onSecond(roundSeconds)
         @_tick()
     ), @_tickPeriod)
 
@@ -210,6 +216,7 @@ ReactCountdownClock.propTypes =
   timeFormat: PropTypes.string
   onComplete: PropTypes.func
   onClick: PropTypes.func
+  onSecond: PropTypes.func
   showMilliseconds: PropTypes.bool
   paused: PropTypes.bool
   pausedText: PropTypes.string
