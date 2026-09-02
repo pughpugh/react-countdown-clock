@@ -6,6 +6,7 @@ const sharedOptions = {
 	minify: true,
 	external: ["react", "prop-types"], // Peer dependencies
 	loader: { ".jsx": "jsx" },
+	jsx: "automatic",
 };
 
 async function build() {
