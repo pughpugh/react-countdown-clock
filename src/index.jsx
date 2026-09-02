@@ -195,6 +195,7 @@ const ReactCountdownClock = ({
 
 	const tick = useCallback(() => {
 		const start = Date.now();
+		stopTimer(); // Ensure no overlapping timers
 		timerIdRef.current = setTimeout(() => {
 			const duration = (Date.now() - start) / 1000;
 			secondsLeftRef.current -= duration;
@@ -210,12 +211,13 @@ const ReactCountdownClock = ({
 				tick();
 			}
 		}, getTickPeriod(secondsLeftRef.current));
-	}, [getTickPeriod, onComplete, clearTimer, updateCanvas]);
+	}, [getTickPeriod, onComplete, clearTimer, updateCanvas, stopTimer]);
 
 	const startTimer = useCallback(() => {
+		stopTimer(); // Ensure no overlapping timers
 		// Give it a moment to collect its thoughts for smoother render (matches original behavior)
 		timerIdRef.current = setTimeout(() => tick(), 200);
-	}, [tick]);
+	}, [tick, stopTimer]);
 
 	// Initial setup and prop changes
 	useEffect(() => {
@@ -226,7 +228,7 @@ const ReactCountdownClock = ({
 			secondsLeftRef.current = paused ? seconds : seconds - 0.01;
 			stopTimer();
 			drawBackground();
-			drawTimer(secondsLeftRef.current);
+			updateCanvas(secondsLeftRef.current);
 			if (!paused) {
 				shouldStart = true;
 			}
@@ -259,7 +261,6 @@ const ReactCountdownClock = ({
 		color,
 		stopTimer,
 		drawBackground,
-		drawTimer,
 		updateCanvas,
 		startTimer,
 	]);
@@ -267,7 +268,7 @@ const ReactCountdownClock = ({
 	// ComponentDidMount logic
 	useEffect(() => {
 		drawBackground();
-		drawTimer(secondsLeftRef.current);
+		updateCanvas(secondsLeftRef.current);
 		if (!paused) {
 			startTimer();
 		}
@@ -275,7 +276,7 @@ const ReactCountdownClock = ({
 			stopTimer();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [drawTimer, stopTimer, startTimer, paused, drawBackground]); // Only run once on mount
+	}, [stopTimer, startTimer, paused, drawBackground, updateCanvas]); // Only run once on mount
 
 	const canvasStyle = { position: "absolute", width: size, height: size };
 	const canvasProps = {
@@ -289,7 +290,7 @@ const ReactCountdownClock = ({
 		<div
 			ref={containerRef}
 			className="react-countdown-clock"
-			style={{ width: size, height: size }}
+			style={{ width: size, height: size, outline: "none" }}
 			onClick={onClick}
 			onKeyDown={(e) => e.key === "Enter" && onClick?.()}
 			role="button"
