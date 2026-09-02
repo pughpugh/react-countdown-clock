@@ -19,66 +19,69 @@
 </head>
 <body>
   <div id="parappa"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.development.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/create-react-class/create-react-class.js"></script>
-  <script src="./build/react-countdown-clock.js"></script>
-  <script>
-    var MAX = 120;
-    var MIN = 10;
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "prop-types": "https://esm.sh/prop-types@15.8.1"
+      }
+    }
+  </script>
+  <script type="module">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import ReactCountdownClock from './build/index.esm.js';
 
-    var randomAmountOfSeconds = function(){
+    const MAX = 120;
+    const MIN = 10;
+
+    const randomAmountOfSeconds = () => {
       return Math.floor( Math.random() * ( MAX - MIN + 1) + MIN )
     }
 
-    var randomColor = function(){
-      return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16);
+    const randomColor = () => {
+      return '#' + ( Math.random() * 0xFFFFFF << 0 ).toString(16).padStart(6, '0');
     }
 
-    var Demo = createReactClass({
-      displayName: 'Demo',
-      getState: function(){
-        return { 
-          seconds: randomAmountOfSeconds(),
-          color: randomColor(),
-          paused: false,
-          fontSize: 'auto'
-        }
-      },
-      getInitialState: function(){
-        return this.getState();
-      },
-      handleOnComplete: function(){
-        this.setState(this.getState());
-      },
-      handleOnClick: function(){
-        wasPaused = this.state.paused
-        this.setState({
-          // color: randomColor(),
-          paused: (wasPaused) ? false : true,
-          fontSize: (wasPaused) ? 'auto' : '45px',
-        });
-      },
-      render: function(){
-        return (
-          React.createElement(ReactCountdownClock, {
-            seconds: this.state.seconds,
-            color: this.state.color,
-            paused: this.state.paused,
-            pausedText: "▐▐ ",
-            alpha: 0.9,
-            onComplete: this.handleOnComplete,
-            onClick: this.handleOnClick,
-            fontSize: this.state.fontSize
-          })
-        )
-      }
-    });
+    const Demo = () => {
+      const [seconds, setSeconds] = React.useState(randomAmountOfSeconds);
+      const [color, setColor] = React.useState(randomColor);
+      const [paused, setPaused] = React.useState(false);
+      const [fontSize, setFontSize] = React.useState('auto');
 
-    ReactDOM.render(
-      React.createElement(Demo, null),
-      document.getElementById('parappa')
-    )
+      const handleOnComplete = () => {
+        setSeconds(randomAmountOfSeconds());
+        setColor(randomColor());
+        setPaused(false);
+        setFontSize('auto');
+      };
+
+      const handleOnClick = () => {
+        setPaused((prev) => {
+          if (!prev) {
+            setFontSize('45px');
+          } else {
+            setFontSize('auto');
+          }
+          return !prev;
+        });
+      };
+
+      return React.createElement(ReactCountdownClock, {
+        seconds,
+        color,
+        paused,
+        pausedText: "▐▐ ",
+        alpha: 0.9,
+        onComplete: handleOnComplete,
+        onClick: handleOnClick,
+        fontSize
+      });
+    };
+
+    const root = createRoot(document.getElementById('parappa'));
+    root.render(React.createElement(Demo, null));
   </script>
 </body>
 </html>
