@@ -21,6 +21,7 @@ const ReactCountdownClock = ({
 	const containerRef = useRef(null);
 
 	const timerIdRef = useRef(null);
+	const lastFrameTimeRef = useRef(null);
 	const secondsLeftRef = useRef(paused ? seconds : seconds - 0.01);
 	const prevPausedRef = useRef(paused);
 	const prevSecondsRef = useRef(seconds);
@@ -31,12 +32,6 @@ const ReactCountdownClock = ({
 	const radius = size / 2;
 	const fraction = 2 / seconds;
 	const innerRadius = weight ? radius - weight : radius / 1.8;
-
-	const getTickPeriod = useCallback((secs) => {
-		const tickScale = 1.8;
-		const tick = secs * tickScale;
-		return tick > 1000 ? 1000 : tick;
-	}, []);
 
 	const formattedTime = useCallback(
 		(secs) => {
@@ -188,16 +183,20 @@ const ReactCountdownClock = ({
 
 	const stopTimer = useCallback(() => {
 		if (timerIdRef.current) {
-			clearTimeout(timerIdRef.current);
+			cancelAnimationFrame(timerIdRef.current);
 			timerIdRef.current = null;
 		}
 	}, []);
 
-	const tick = useCallback(() => {
-		const start = Date.now();
-		stopTimer(); // Ensure no overlapping timers
-		timerIdRef.current = setTimeout(() => {
-			const duration = (Date.now() - start) / 1000;
+	const tick = useCallback(
+		(timestamp) => {
+			if (lastFrameTimeRef.current === null) {
+				lastFrameTimeRef.current = timestamp;
+			}
+
+			const duration = (timestamp - lastFrameTimeRef.current) / 1000;
+			lastFrameTimeRef.current = timestamp;
+
 			secondsLeftRef.current -= duration;
 
 			if (secondsLeftRef.current <= 0) {
@@ -208,15 +207,16 @@ const ReactCountdownClock = ({
 				clearTimer();
 			} else {
 				updateCanvas(secondsLeftRef.current);
-				tick();
+				timerIdRef.current = requestAnimationFrame(tick);
 			}
-		}, getTickPeriod(secondsLeftRef.current));
-	}, [getTickPeriod, onComplete, clearTimer, updateCanvas, stopTimer]);
+		},
+		[onComplete, clearTimer, updateCanvas],
+	);
 
 	const startTimer = useCallback(() => {
 		stopTimer(); // Ensure no overlapping timers
-		// Give it a moment to collect its thoughts for smoother render (matches original behavior)
-		timerIdRef.current = setTimeout(() => tick(), 200);
+		lastFrameTimeRef.current = null; // Reset delta time
+		timerIdRef.current = requestAnimationFrame(tick);
 	}, [tick, stopTimer]);
 
 	// Initial setup and prop changes
