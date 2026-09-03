@@ -2,23 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>react-countdown-clock</title>
+  <title>react-countdown-clock demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #CCC;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    #parappa { 
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 300px;
-      height: 300px;
-      margin: -150px 0 0 -150px;
+    .demo-container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .controls {
+      width: 360px;
+      background: #1e293b;
+      padding: 35px 30px;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+      z-index: 10;
+      box-sizing: border-box;
+    }
+    .controls::-webkit-scrollbar {
+      width: 6px;
+    }
+    .controls::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    .preview {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      position: relative;
+    }
+    h2 {
+      margin: 0 0 30px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #f8fafc;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .field {
+      margin-bottom: 22px;
+    }
+    .field label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #94a3b8;
+    }
+    .field input[type="text"],
+    .field input[type="number"],
+    .field select {
+      width: 100%;
+      padding: 10px 14px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #f8fafc;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .field input:focus, .field select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .field input[type="color"] {
+      width: 100%;
+      height: 42px;
+      padding: 0;
+      background: none;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .field input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .field input[type="color"]::-webkit-color-swatch {
+      border: 1px solid #334155;
+      border-radius: 6px;
+    }
+    .field input[type="range"] {
+      width: 100%;
+      accent-color: #3b82f6;
+    }
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .field-row input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: #3b82f6;
+      cursor: pointer;
+    }
+    .field-row label {
+      margin: 0;
+      cursor: pointer;
+      color: #e2e8f0;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    button.reset {
+      width: 100%;
+      padding: 14px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 15px;
+    }
+    button.reset:hover {
+      background: #2563eb;
     }
   </style>
 </head>
 <body>
-  <div id="parappa"></div>
+  <div id="root"></div>
   <script type="importmap">
     {
       "imports": {
@@ -34,55 +157,127 @@
     import { createRoot } from 'react-dom/client';
     import ReactCountdownClock from './build/index.esm.js';
 
-    const MAX = 120;
-    const MIN = 10;
+    const e = React.createElement;
 
-    const randomAmountOfSeconds = () => {
-      return Math.floor( Math.random() * ( MAX - MIN + 1) + MIN )
-    }
-
-    const randomColor = () => {
-      return `#${( Math.random() * 0xFFFFFF << 0 ).toString(16).padStart(6, '0')}`;
-    }
+    const Field = ({ label, children }) => e('div', { className: 'field' },
+      e('label', null, label),
+      children
+    );
 
     const Demo = () => {
-      const [seconds, setSeconds] = React.useState(randomAmountOfSeconds);
-      const [color, setColor] = React.useState(randomColor);
-      const [paused, setPaused] = React.useState(false);
+      const [seconds, setSeconds] = React.useState(90);
+      const [size, setSize] = React.useState(350);
+      const [weight, setWeight] = React.useState(50); // 0 means undefined
+      const [color, setColor] = React.useState('#3b82f6');
       const [fontSize, setFontSize] = React.useState('auto');
+      const [font, setFont] = React.useState('Inter, sans-serif');
+      const [alpha, setAlpha] = React.useState(1);
+      const [timeFormat, setTimeFormat] = React.useState('hms');
+      const [showMilliseconds, setShowMilliseconds] = React.useState(true);
+      const [paused, setPaused] = React.useState(false);
+      const [pausedText, setPausedText] = React.useState('⏸');
 
       const handleOnComplete = () => {
-        setSeconds(randomAmountOfSeconds());
-        setColor(randomColor());
-        setPaused(false);
-        setFontSize('auto');
+        console.log("Timer completed!");
       };
 
       const handleOnClick = () => {
-        setPaused((prev) => {
-          if (!prev) {
-            setFontSize('45px');
-          } else {
-            setFontSize('auto');
-          }
-          return !prev;
-        });
+        setPaused(p => !p);
       };
 
-      return React.createElement(ReactCountdownClock, {
-        seconds,
-        color,
-        paused,
-        pausedText: "▐▐ ",
-        alpha: 0.9,
-        onComplete: handleOnComplete,
-        onClick: handleOnClick,
-        fontSize
-      });
+      const resetTimer = () => {
+        setSeconds(s => s + 0.0001); 
+      };
+
+      return e('div', { className: 'demo-container' },
+        e('div', { className: 'controls' },
+          e('h2', null, 'Configuration'),
+          
+          e(Field, { label: 'Duration (Seconds)' }, 
+            e('input', { type: 'number', value: seconds, onChange: e => setSeconds(Number(e.target.value)) })
+          ),
+          
+          e(Field, { label: 'Size (px)' }, 
+            e('input', { type: 'number', value: size, onChange: e => setSize(Number(e.target.value)) })
+          ),
+          
+          e(Field, { label: 'Weight (px) [0 = auto]' }, 
+            e('input', { type: 'number', value: weight, onChange: e => setWeight(Number(e.target.value)) })
+          ),
+          
+          e(Field, { label: 'Color' }, 
+            e('input', { type: 'color', value: color, onChange: e => setColor(e.target.value) })
+          ),
+          
+          e(Field, { label: `Alpha (${alpha})` }, 
+            e('input', { type: 'range', min: 0.1, max: 1, step: 0.1, value: alpha, onChange: e => setAlpha(Number(e.target.value)) })
+          ),
+
+          e(Field, { label: 'Font Family' }, 
+            e('select', { value: font, onChange: e => setFont(e.target.value) },
+              e('option', { value: 'Inter, sans-serif' }, 'Inter'),
+              e('option', { value: 'Courier New, monospace' }, 'Courier New'),
+              e('option', { value: 'system-ui, sans-serif' }, 'System UI'),
+              e('option', { value: 'Impact, sans-serif' }, 'Impact')
+            )
+          ),
+
+          e(Field, { label: 'Font Size' }, 
+            e('input', { type: 'text', value: fontSize, placeholder: 'e.g., auto, 30px', onChange: e => setFontSize(e.target.value) })
+          ),
+
+          e(Field, { label: 'Time Format' }, 
+            e('select', { value: timeFormat, onChange: e => setTimeFormat(e.target.value) },
+              e('option', { value: 'hms' }, 'Hours:Minutes:Seconds'),
+              e('option', { value: 'decimal' }, 'Decimal')
+            )
+          ),
+
+          e(Field, { label: 'Paused Text' }, 
+            e('input', { type: 'text', value: pausedText, onChange: e => setPausedText(e.target.value) })
+          ),
+
+          e('div', { className: 'field field-row', onClick: () => setShowMilliseconds(v => !v) },
+            e('input', { type: 'checkbox', id: 'ms', checked: showMilliseconds, readOnly: true }),
+            e('label', { htmlFor: 'ms' }, 'Show Milliseconds')
+          ),
+
+          e('div', { className: 'field field-row', onClick: () => setPaused(v => !v) },
+            e('input', { type: 'checkbox', id: 'paused', checked: paused, readOnly: true }),
+            e('label', { htmlFor: 'paused' }, 'Paused')
+          ),
+
+          e('div', { style: { marginTop: '30px' } },
+            e('button', { 
+              className: 'reset',
+              onClick: resetTimer,
+            }, 'Reset Timer')
+          )
+        ),
+        
+        e('div', { className: 'preview' },
+          e(ReactCountdownClock, {
+            key: `clock-${seconds}`, 
+            seconds: Math.floor(seconds),
+            size,
+            weight: weight > 0 ? weight : undefined,
+            color,
+            fontSize,
+            font,
+            alpha,
+            timeFormat,
+            showMilliseconds,
+            paused,
+            pausedText,
+            onComplete: handleOnComplete,
+            onClick: handleOnClick
+          })
+        )
+      );
     };
 
-    const root = createRoot(document.getElementById('parappa'));
-    root.render(React.createElement(Demo, null));
+    const root = createRoot(document.getElementById('root'));
+    root.render(e(Demo, null));
   </script>
 </body>
 </html>
