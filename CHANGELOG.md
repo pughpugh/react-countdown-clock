@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.0 - Sep 3, 2026
+  * Rewrite component in modern JavaScript with Hooks
+  * Build with esbuild and support ESM and CJS modules
+  * Upgrade to React 18
+  * Add Vitest test suite and GitHub Actions for CI
+  * Add Biome for linting and formatting
+  * Replace setTimeout with requestAnimationFrame for smooth 60fps rendering
+  * Fix canvas rendering bugs and a11y focus outline
+  * Complete UI overhaul of the demo page
+
 ## 2.12.0 - Sep 2, 2026
   * Update npm dependencies
 
